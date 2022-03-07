@@ -1,6 +1,6 @@
 <template>
  <div v-for="(memo, index) in memos" :key="memo.id">
-    {{ memo.memo[0] }}
+    <label @dblclick="editMemo(index)">{{ memo.memo[0] }}</label>
  </div>
  <button @click="createNewMemo">+</button>
  <div v-if="creatMemoStatus">
@@ -8,6 +8,17 @@
       <label>Create a memo</label>
       <textarea name="memo"  rows="10" required v-model="newMemo"></textarea>
       <button>add</button>
+    </form>
+ </div>
+ <div v-if="editMemoStatus">
+    <form>
+      <label>Edit or delete a Memo</label>
+      <div v-for="memo in test" :key="memo.id">
+         {{ memo }}
+      </div>
+      <textarea name="memo"  rows="10" required v-model="editedMemo"></textarea>
+      <button @click="submitEditedMemo">edit</button>
+      <button @click="deleteMemo">delete</button>
     </form>
  </div>
 </template>
@@ -22,7 +33,9 @@ export default {
       newMemoObject: '',
       uuid: '',
       newMemoObject: '',
-      creatMemoStatus: false
+      creatMemoStatus: false,
+      editMemoStatus: false,
+      test: ''
     }
   },
   mounted() {
@@ -45,6 +58,10 @@ export default {
     },
     createNewMemo() {
       this.creatMemoStatus = true
+    },
+    editMemo(index) {
+      this.editMemoStatus = true
+      this.test = this.memos[index].memo
     }
   }
 }
