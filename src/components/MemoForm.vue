@@ -69,6 +69,12 @@ export default {
       localStorage.setItem('memos', JSON.stringify(this.memos))
       this.editMemoStatus = false
       this.editedMemo = ''
+    },
+    deleteMemo() {
+      if (confirm('are you sure to delete this todo?')) {
+        this.memos.splice(this.index, 1)
+      }
+      localStorage.setItem('memos', JSON.stringify(this.memos))
     }
   }
 }
