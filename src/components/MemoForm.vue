@@ -1,6 +1,7 @@
 <template>
  <div v-for="(memo, index) in memos" :key="memo.id">
-    <label @dblclick="editMemo(index)">{{ memo.memo[0] }}</label>
+    <!-- <label @dblclick="editMemo(index)">{{ memo.memo[0] }}</label> -->
+    <label @dblclick="editMemo(index)">{{ memo[0] }}</label>
  </div>
  <button @click="createNewMemo">+</button>
  <div v-if="creatMemoStatus">
@@ -13,10 +14,7 @@
  <div v-if="editMemoStatus">
     <form>
       <label>Edit or delete a Memo</label>
-      <div v-for="memo in test" :key="memo.id">
-         {{ memo }}
-      </div>
-      <textarea name="memo"  rows="10" required v-model="editedMemo"></textarea>
+      <textarea name="memo" rows="10" required v-model="editedMemo"></textarea>
       <button @click="submitEditedMemo">edit</button>
       <button @click="deleteMemo">delete</button>
     </form>
@@ -32,10 +30,12 @@ export default {
       memos: [],
       newMemoObject: '',
       uuid: '',
-      newMemoObject: '',
       creatMemoStatus: false,
       editMemoStatus: false,
-      test: ''
+      test: '',
+      editedMemo: '',
+      index: '',
+      updatedMemo: ''
     }
   },
   mounted() {
@@ -47,21 +47,28 @@ export default {
     },
     addMemo() {
       let newMemoObject = this.newMemo.split(/\n/)
-      var newMemoObjectWithId = {
-        id: uuidv4(),
-        memo: newMemoObject
-      }
-      this.memos.push(newMemoObjectWithId)
-      newMemoObject = ''
-      newMemoObjectWithId = ''
+      this.memos.push(newMemoObject)
+      this.newMemoObject = ''
+      this.newMemo = ''
+      this.creatMemoStatus = ''
       this.saveJSONData()
     },
     createNewMemo() {
       this.creatMemoStatus = true
     },
     editMemo(index) {
+      console.log(this.memos)
       this.editMemoStatus = true
-      this.test = this.memos[index].memo
+      this.test = this.memos[index]
+      this.editedMemo = this.test.toString().replace(/,/g, "\n")
+      this.index = index
+    },
+    submitEditedMemo() {
+      this.updatedMemo = this.editedMemo.split(/\n/)
+      this.memos.splice(this.index, 1, this.updatedMemo)
+      localStorage.setItem('memos', JSON.stringify(this.memos))
+      this.editMemoStatus = false
+      this.editedMemo = ''
     }
   }
 }
