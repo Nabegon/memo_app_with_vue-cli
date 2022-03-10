@@ -1,24 +1,25 @@
 <template>
- <div v-for="(memo, index) in memos" :key="memo.id">
-    <!-- <label @dblclick="editMemo(index)">{{ memo.memo[0] }}</label> -->
+<div class="container">
+  <div v-for="(memo, index) in memos" :key="memo.id" class="memoList">
     <label @dblclick="editMemo(index)">{{ memo[0] }}</label>
- </div>
- <button @click="createNewMemo">+</button>
- <div v-if="creatMemoStatus">
+  </div>
+  <label @click="createNewMemo" class="createButton">+</label>
+  <div v-if="creatMemoStatus" class="memoForm">
     <form @submit.prevent="addMemo">
       <label>Create a memo</label>
       <textarea name="memo"  rows="10" required v-model="newMemo"></textarea>
       <button>add</button>
     </form>
- </div>
- <div v-if="editMemoStatus">
+  </div>
+  <div v-if="editMemoStatus">
     <form>
       <label>Edit or delete a Memo</label>
       <textarea name="memo" rows="10" required v-model="editedMemo"></textarea>
       <button @click="submitEditedMemo">edit</button>
       <button @click="deleteMemo">delete</button>
     </form>
- </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -83,21 +84,22 @@ export default {
 <style>
 form {
     max-width: 420px;
-    margin: 30px auto;
+    margin: 0px 100px 0px;
     background: white;
-    text-align: left;
     padding: 40px;
     border-radius: 10px;
   }
   label {
     color: #aaa;
     display: inline-block;
-    margin: 25px 0 15px;
-    font-size: 0.6em;
+    margin: 0px 0 5px;
+    padding: 5px;
+    font-size: 0.8em;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
   }
+ 
   textarea {
     height: 100%;
     display: block;
@@ -107,5 +109,23 @@ form {
     border: none;
     border-bottom: 1px solid #ddd;
     color: #555;
+  } 
+  .container {
+    width: 700px;
+    margin: auto;
+    background: white;
   }
+  .memoList {
+    display: block;
+    text-align: left;
+  }
+  .createButton {
+    display: block;
+    text-align: left;
+  }
+  .memoForm {
+    display: block;
+    text-align: right;
+  }
+   
 </style>
