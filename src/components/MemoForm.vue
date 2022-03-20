@@ -58,7 +58,6 @@ export default {
       this.creatMemoStatus = true
     },
     editMemo(index) {
-      console.log(this.memos)
       this.editMemoStatus = true
       this.test = this.memos[index]
       this.editedMemo = this.test.toString().replace(/,/g, "\n")
