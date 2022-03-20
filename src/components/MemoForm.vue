@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <div v-for="(memo, index) in memos" :key="memo.id" class="memoList">
-    <label @dblclick="editMemo(index)">{{ memo[0] }}</label>
+    <label @click="editMemo(index)">{{ memo[0] }}</label>
   </div>
   <label @click="createNewMemo" class="createButton">+</label>
   <div v-if="creatMemoStatus" class="memoForm">
