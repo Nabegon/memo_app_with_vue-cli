@@ -1,9 +1,11 @@
 <template>
 <div class="container">
-  <div v-for="(memo, index) in memos" :key="memo.id" class="memoList">
-    <label @click="editMemo(index)">{{ memo[0] }}</label>
+  <div class="memoList">
+    <div v-for="(memo, index) in memos" :key="memo.id">
+      <label @click="editMemo(index)">{{ memo[0] }}</label>
+    </div>
+    <label @click="createNewMemo" class="createButton">+</label>
   </div>
-  <label @click="createNewMemo" class="createButton">+</label>
   <div v-if="creatMemoStatus" class="memoForm">
     <form @submit.prevent="addMemo">
       <label>Create a memo</label>
@@ -23,7 +25,6 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from 'uuid'
 export default {
   data() {
     return {
@@ -113,10 +114,13 @@ form {
     width: 700px;
     margin: auto;
     background: white;
+    display: flex;
   }
   .memoList {
-    display: block;
+    /* display: block;
     text-align: left;
+    display: flex;
+    flex-flow: column; */
   }
   .createButton {
     display: block;
