@@ -6,20 +6,14 @@
     </div>
     <label @click="createNewMemo" class="createButton">+</label>
   </div>
-  <div v-if="creatMemoStatus" class="memoForm">
-    <form @submit.prevent="addMemo">
-      <label>Create a memo</label>
-      <textarea name="memo"  rows="10" required v-model="newMemo"></textarea>
-      <button>add</button>
-    </form>
-  </div>
-  <div v-if="editMemoStatus">
-    <form>
-      <label>Edit or delete a Memo</label>
-      <textarea name="memo" rows="10" required v-model="editedMemo"></textarea>
-      <button @click="submitEditedMemo">edit</button>
-      <button @click="deleteMemo">delete</button>
-    </form>
+  <div v-if="creatMemoStatus || editMemoStatus" class="memoForm">
+      <label v-if="creatMemoStatus">Create a memo</label>
+      <label v-if="editMemoStatus">Edit or delete a Memo</label>
+      <textarea v-if="creatMemoStatus" name="memo" rows="10" required v-model="newMemo"></textarea>
+      <textarea v-if="editMemoStatus" name="memo" rows="10" required v-model="memoData"></textarea>
+      <button v-if="creatMemoStatus" @click="addMemo">add</button>
+      <button v-if="editMemoStatus" @click="submitEditedMemo">edit</button>
+      <button v-if="editMemoStatus" @click="deleteMemo">delete</button>
   </div>
 </div>
 </template>
@@ -28,16 +22,16 @@
 export default {
   data() {
     return {
-      newMemo: '',
+      memoData: '',
       memos: [],
       newMemoObject: '',
-      uuid: '',
       creatMemoStatus: false,
       editMemoStatus: false,
       test: '',
       editedMemo: '',
       index: '',
-      updatedMemo: ''
+      updatedMemo: '',
+      newMemo: ''
     }
   },
   mounted() {
@@ -57,19 +51,21 @@ export default {
     },
     createNewMemo() {
       this.creatMemoStatus = true
+      this.editMemoStatus = false
     },
     editMemo(index) {
       this.editMemoStatus = true
+      this.creatMemoStatus = false
       this.test = this.memos[index]
-      this.editedMemo = this.test.toString().replace(/,/g, "\n")
+      this.memoData = this.test.toString().replace(/,/g, "\n")
       this.index = index
     },
     submitEditedMemo() {
-      this.updatedMemo = this.editedMemo.split(/\n/)
+      this.updatedMemo = this.memoData.split(/\n/)
       this.memos.splice(this.index, 1, this.updatedMemo)
       localStorage.setItem('memos', JSON.stringify(this.memos))
       this.editMemoStatus = false
-      this.editedMemo = ''
+      this.memoData = ''
     },
     deleteMemo() {
       if (confirm('are you sure to delete this todo?')) {
@@ -101,7 +97,6 @@ form {
   }
  
   textarea {
-    height: 100%;
     display: block;
     padding: 10px 6px;
     width: 100%;
@@ -117,10 +112,10 @@ form {
     display: flex;
   }
   .memoList {
-    /* display: block;
+    display: block;
     text-align: left;
     display: flex;
-    flex-flow: column; */
+    flex-flow: column;
   }
   .createButton {
     display: block;
@@ -128,7 +123,7 @@ form {
   }
   .memoForm {
     display: block;
-    text-align: right;
+    width: 80%;
   }
    
 </style>
