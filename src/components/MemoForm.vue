@@ -27,7 +27,7 @@ export default {
       newMemoObject: '',
       creatMemoStatus: false,
       editMemoStatus: false,
-      test: '',
+      originalMemo: '',
       editedMemo: '',
       index: '',
       updatedMemo: '',
@@ -56,8 +56,8 @@ export default {
     editMemo(index) {
       this.editMemoStatus = true
       this.creatMemoStatus = false
-      this.test = this.memos[index]
-      this.memoData = this.test.toString().replace(/,/g, "\n")
+      this.originalMemo = this.memos[index]
+      this.memoData = this.originalMemo.toString().replace(/,/g, "\n")
       this.index = index
     },
     submitEditedMemo() {
